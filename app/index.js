@@ -1,13 +1,19 @@
-const lyrics = require("lyric-music"); 
-const express = require('express');
+import { find_lyrics } from "@brandond/findthelyrics";
+import express from 'express';
 const app = express();
 const port = 3000;
 
 
 
 app.get('/lirik/:id',async (req, myres) => {
-    const lyric = await lyrics(req.params.id);
-    var jsonObj = {'lirik':lyric};
+    const lyrics = await find_lyrics(req.params.id);
+    if (lyrics instanceof Error) {
+        console.error(lyrics);
+    } else {
+        console.log(lyrics);
+
+    }
+    var jsonObj = {'lirik':lyrics};
 
     myres.json(jsonObj);
   
